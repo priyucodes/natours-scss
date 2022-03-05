@@ -1,0 +1,81 @@
+.story {
+  width: 75%;
+  margin: 0 auto;
+  box-shadow: 0 3rem 6rem rgba($color-black, 0.1);
+  background-color: rgba($color-white, 0.6);
+  border-radius: 3px;
+  padding: 6rem;
+  padding-left: 9rem; // old 6 + 3(translatedX)below
+  font-size: $default-font-size;
+  transform: skewX(-12deg);
+
+  /*
+  // To fix everything else  skewed
+  & > * {
+    //
+    skew: 12deg;
+    // we using trasform property in shape(img/fig) that has higher precedence over this so it doesnt take effect
+    // We used skew in the shape and text seperately to make it work
+    transform: skewX(12deg);
+  } */
+  &__shape {
+    width: 15rem;
+    height: 15rem;
+    float: left;
+    -webkit-clip-path: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);
+    // ALSO, the element should have DEFINED dimensions HEIGHT x WIDTH
+    // FOR THIS to WORK, the element must be FLOATED
+    // (radius, at center horizontally vertically
+    // if 50% then half of width and height
+    -webkit-shape-outside: circle(50% at 50% 50%);
+    shape-outside: circle(50% at 50% 50%);
+
+    transform: translateX(-3rem) skewX(12deg);
+    position: relative;
+    // Fixes the border of the img leaking
+    overflow: hidden;
+  }
+
+  &__img {
+    // 100% of the parent
+    height: 100%;
+
+    // to make img at the center
+    transform: translateX(-4rem) scale(1.4);
+    // due to which the girl in the image comes to the center
+    // Whenever we are dealing with animation and translation stuff and something weird happens backface-visibility fixes that
+    backface-visibility: hidden;
+    transition: all 0.5s;
+  }
+  &__text {
+    transform: skewX(12deg);
+  }
+
+  &__caption {
+    // Inital state before hover
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 20%);
+    color: $color-white;
+    text-transform: uppercase;
+    font-size: 1.7rem;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.5s;
+
+    // remove shakiness
+    backface-visibility: hidden;
+  }
+
+  &:hover &__caption {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  &:hover &__img {
+    transform: translateX(-4rem) scale(1);
+    // brightness above 100 is brighter and below is darker
+    filter: blur(3px) brightness(80%);
+  }
+}
