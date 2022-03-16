@@ -10,6 +10,14 @@
   visibility: hidden;
   transition: all 0.3s;
 
+  // Graceful dedgradation
+  @supports (
+    (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))
+  ) {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background-color: rgba($color-black, 0.3);
+  }
   &__content {
     @include absCenter;
     width: 75%;
@@ -22,18 +30,24 @@
     transform: translate(-50%, -50%) scale(0.25);
     // property,duration,delay
     transition: all 0.5s 0.2s;
+    @include respond(popup-custom) {
+      text-align: center;
+    }
   }
 
   &__left {
-    width: 33.3333333%;
+    width: 33.33333333%;
     display: table-cell;
+    @include respond(popup-custom) {
+      display: none;
+    }
   }
 
   &__right {
     width: 66.6666667%;
     display: table-cell;
     vertical-align: middle;
-    padding: 3rem 5rem;
+    padding: 2.6rem 5rem;
   }
 
   &__img {
@@ -57,8 +71,13 @@
     -ms-hyphens: auto;
     -webkit-hyphens: auto;
     hyphens: auto;
+    @include respond(phone) {
+      font-size: 1.3rem;
+      margin-bottom: 3rem;
+    }
   }
 
+  //The :target CSS pseudo-class represents a unique element (the target element) with an id matching the URL's fragment.
   // OPEN states
   &:target {
     opacity: 1;
